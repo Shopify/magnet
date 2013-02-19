@@ -42,26 +42,30 @@ module Magnet
       6 => :integrated_circuit_card
     }.freeze
 
-    attr_accessor :allowed_services, :authorization_processing, :discretionary_data, :expiration_year, :expiration_month, :format, :interchange, :name, :number, :pin_requirements, :technology
+    attr_accessor :allowed_services, :authorization_processing, :discretionary_data, :expiration_year, :expiration_month, :first_name, :format, :initial, :interchange, :last_name, :number, :pin_requirements, :technology, :title
 
     class << self
       def parse(track_data, parser = Parser.new(:auto))
         attributes = parser.parse(track_data)
         position1, position2, position3 = (attributes[:service_code] || "").scan(/\d/).map(&:to_i)
         year, month = (attributes[:expiration] || "").scan(/\d\d/).map(&:to_i)
+        title, first_name, initial, last_name = parse_name(attributes[:name].rstrip)
 
         card = new
         card.allowed_services = hash_lookup(ALLOWED_SERVICES, position3)
         card.authorization_processing = hash_lookup(AUTHORIZATION_PROCESSING, position2)
         card.discretionary_data = attributes[:discretionary_data]
-        card.expiration_year = year
         card.expiration_month = month
+        card.expiration_year = year
+        card.first_name = first_name
         card.format = hash_lookup(FORMAT, attributes[:format])
+        card.initial = initial
         card.interchange = hash_lookup(INTERCHANGE, position1)
-        card.name = parse_name(attributes[:name])
+        card.last_name = last_name
         card.number = attributes[:pan]
         card.pin_requirements = hash_lookup(PIN_REQUIREMENTS, position3)
         card.technology = hash_lookup(TECHNOLOGY, position1)
+        card.title = title
         card
       end
 
@@ -74,7 +78,10 @@ module Magnet
       end
 
       def parse_name(name)
-        name # TODO
+        last, first = name.split("/", 2)
+        first, initial = first.split(" ", 2) if first
+        initial, title = initial.split(".", 2) if initial
+        [title, first, initial, last]
       end
     end
 
