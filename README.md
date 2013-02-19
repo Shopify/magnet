@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/samuelkadolph/magnet.png?branch=master)](http://travis-ci.org/samuelkadolph/magnet)
+
 # magnet
 
 magnet is a library for decoding the track data on magnetic stripe cards.
