@@ -38,5 +38,15 @@ describe Magnet::Parser do
       assert_equal "321", attributes[:service_code]
       assert_equal "0000000725000000", attributes[:discretionary_data]
     end
+
+    it "should parse sample #4" do
+      parser = Magnet::Parser.new(:auto)
+      attributes = parser.parse("%BA98F462FA7B435C7^GIFT/CARD     ^2001901123?")
+      assert_equal "A98F462FA7B435C7", attributes[:pan]
+      assert_equal "GIFT/CARD     ", attributes[:name]
+      assert_equal "2001", attributes[:expiration]
+      assert_equal "901", attributes[:service_code]
+      assert_equal "123", attributes[:discretionary_data]
+    end
   end
 end
