@@ -1,8 +1,8 @@
 module Magnet
   class Parser
     TRACKS = {
-      1 => /\A%(?<format>[A-Z])(?<pan>[0-9]{1,19})\^(?<name>[A-Za-z.\/ ]{2,26})\^(?<expiration>\d{4}|\^)(?<service_code>\d{3}|\^)(?<discretionary_data>[^\?]+)\?\Z/,
-      2 => /\A;(?<format>[A-Z])(?<pan>[0-9]{1,19})=(?<expiration>\d{4}|=)(?<service_code>\d{3}|=)(?<discretionary_data>[^\?]+)\?\Z/
+      1 => /\A%(?<format>[A-Z])(?<pan>[0-9]{1,19})\^(?<name>[A-Za-z.\/ ]{2,26})\^(?<expiration>\d{4}|\^)(?<service_code>\d{3}|\^)(?<discretionary_data>[^\?]*)\?\Z/,
+      2 => /\A;(?<format>[A-Z])(?<pan>[0-9]{1,19})=(?<expiration>\d{4}|=)(?<service_code>\d{3}|=)(?<discretionary_data>[^\?]*)\?\Z/
     }.freeze
 
     def initialize(track = :auto)
@@ -20,7 +20,7 @@ module Magnet
           attributes[:name] = m[:name]
           attributes[:expiration] = m[:expiration] == "^" ? nil : m[:expiration]
           attributes[:service_code] = m[:service_code] == "^" ? nil : m[:service_code]
-          attributes[:discretionary_data] = m[:discretionary_data]
+          attributes[:discretionary_data] = m[:discretionary_data] == "" ? nil : m[:discretionary_data]
           return attributes
         end
       end

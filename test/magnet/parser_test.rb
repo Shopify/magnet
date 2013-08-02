@@ -38,5 +38,38 @@ describe Magnet::Parser do
       assert_equal "321", attributes[:service_code]
       assert_equal "0000000725000000", attributes[:discretionary_data]
     end
+
+    it "should parse without discretionary data" do
+      attributes = @parser.parse("%B5452300551227189^HOGAN/PAUL      ^0804321?")
+
+      assert_equal "B", attributes[:format]
+      assert_equal "5452300551227189", attributes[:pan]
+      assert_equal "HOGAN/PAUL      ", attributes[:name]
+      assert_equal "0804", attributes[:expiration]
+      assert_equal "321", attributes[:service_code]
+      assert_equal nil, attributes[:discretionary_data]
+    end
+
+    it "should parse with ^ as the expiration" do
+      attributes = @parser.parse("%B5452300551227189^HOGAN/PAUL      ^^321?")
+
+      assert_equal "B", attributes[:format]
+      assert_equal "5452300551227189", attributes[:pan]
+      assert_equal "HOGAN/PAUL      ", attributes[:name]
+      assert_equal nil, attributes[:expiration]
+      assert_equal "321", attributes[:service_code]
+      assert_equal nil, attributes[:discretionary_data]
+    end
+
+    it "should parse with ^ as the service code" do
+      attributes = @parser.parse("%B5452300551227189^HOGAN/PAUL      ^0804^?")
+
+      assert_equal "B", attributes[:format]
+      assert_equal "5452300551227189", attributes[:pan]
+      assert_equal "HOGAN/PAUL      ", attributes[:name]
+      assert_equal "0804", attributes[:expiration]
+      assert_equal nil, attributes[:service_code]
+      assert_equal nil, attributes[:discretionary_data]
+    end
   end
 end
