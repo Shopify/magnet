@@ -71,5 +71,13 @@ describe Magnet::Parser do
       assert_equal nil, attributes[:service_code]
       assert_equal nil, attributes[:discretionary_data]
     end
+
+    it "should parse track data with asterisk in the name" do
+      attributes = @parser.parse("%B4750550000000000^MCTEST/SYDNEY*GEE^^^?")
+
+      assert_equal "B", attributes[:format]
+      assert_equal "4750550000000000", attributes[:pan]
+      assert_equal "MCTEST/SYDNEY*GEE", attributes[:name]
+    end
   end
 end

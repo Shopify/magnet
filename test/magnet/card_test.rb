@@ -51,5 +51,16 @@ describe Magnet::Card do
       assert_equal "HOGAN", card.last_name
       assert_equal "DR", card.title
     end
+
+    it "should parse names with asterisks in them" do
+      @track_data = "%B4750550000000000^MCTEST/SYDNEY*GEE^^^?"
+      @attributes = { format: "B", pan: "4750550000000000", name: "MCTEST/SYDNEY*GEE", expiration: nil, service_code: nil, discretionary_data: nil }
+      @parser.stubs(:parse).with(@track_data).returns(@attributes)
+
+      card = Magnet::Card.parse(@track_data, @parser)
+
+      assert_equal "SYDNEY*GEE", card.first_name
+      assert_equal "MCTEST", card.last_name
+    end
   end
 end
