@@ -62,7 +62,7 @@ module Magnet
         card.initial = initial
         card.interchange = hash_lookup(INTERCHANGE, position1)
         card.last_name = last_name
-        card.number = attributes[:pan]
+        card.number = parse_pan(attributes[:pan])
         card.pin_requirements = hash_lookup(PIN_REQUIREMENTS, position3)
         card.technology = hash_lookup(TECHNOLOGY, position1)
         card.title = title
@@ -82,6 +82,10 @@ module Magnet
         first, initial = first.split(" ", 2) if first
         initial, title = initial.split(".", 2) if initial
         [title, first, initial, last]
+      end
+
+      def parse_pan(pan)
+        pan.delete(" ")
       end
     end
 

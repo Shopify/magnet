@@ -79,5 +79,13 @@ describe Magnet::Parser do
       assert_equal "4750550000000000", attributes[:pan]
       assert_equal "MCTEST/SYDNEY*GEE", attributes[:name]
     end
+
+    it "should parse track data with spaces in the pan" do
+      attributes = @parser.parse("%B3715 700000 00000^HAMMOND/G                 ^^^?")
+
+      assert_equal "B", attributes[:format]
+      assert_equal "3715 700000 00000", attributes[:pan]
+      assert_equal "HAMMOND/G                 ", attributes[:name]
+    end
   end
 end

@@ -62,5 +62,15 @@ describe Magnet::Card do
       assert_equal "SYDNEY*GEE", card.first_name
       assert_equal "MCTEST", card.last_name
     end
+
+    it "should parse track data with spaces in the pan" do
+      @track_data = "%B4750550000000000^MCTEST/SYDNEY*GEE^^^?"
+      @attributes = { format: "B", pan: "3715 700000 00000", name: "HAMMOND/G                 ", expiration: nil, service_code: nil, discretionary_data: nil }
+      @parser.stubs(:parse).with(@track_data).returns(@attributes)
+
+      card = Magnet::Card.parse(@track_data, @parser)
+
+      assert_equal "371570000000000", card.number
+    end
   end
 end
