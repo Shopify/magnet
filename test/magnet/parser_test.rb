@@ -88,6 +88,12 @@ describe Magnet::Parser do
       assert_equal "HAMMOND/G                 ", attributes[:name]
     end
 
+    it "should parse track data with no name" do
+      attributes = @parser.parse("%B4717270000000000^^0000000000000000000000000000000?")
+
+      assert_equal "", attributes[:name]
+    end
+
     it "should parse track data with numbers in the name" do
       attributes = @parser.parse("%B4717270000000000^LLC/TESTING SCENTS5^0000000000000000000000000000000?")
 
