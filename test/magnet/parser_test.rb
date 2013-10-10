@@ -88,10 +88,101 @@ describe Magnet::Parser do
       assert_equal "HAMMOND/G                 ", attributes[:name]
     end
 
+    it "should parse track data with no name" do
+      attributes = @parser.parse("%B4717270000000000^^0000000000000000000000000000000?")
+
+      assert_equal "", attributes[:name]
+    end
+
     it "should parse track data with numbers in the name" do
       attributes = @parser.parse("%B4717270000000000^LLC/TESTING SCENTS5^0000000000000000000000000000000?")
 
       assert_equal "LLC/TESTING SCENTS5", attributes[:name]
     end
+
+    it "should parse track data with single quotes in the name" do
+      attributes = @parser.parse("%B4717270000000000^JIM/O'CONNOR^0000000000000000000000000000000?")
+
+      assert_equal "JIM/O'CONNOR", attributes[:name]
+    end
+
+    it "should parse track data with double quotes in the name" do
+      attributes = @parser.parse('%B4717270000000000^JIM/O"CONNOR^0000000000000000000000000000000?')
+
+      assert_equal 'JIM/O"CONNOR', attributes[:name]
+    end
+
+    it "should parse track data with backslash in the name" do
+      attributes = @parser.parse('%B4717270000000000^JIM/O\CONNOR^0000000000000000000000000000000?')
+
+      assert_equal 'JIM/O\CONNOR', attributes[:name]
+    end
+
+    it "should parse track data with dashes in the name" do
+      attributes = @parser.parse("%B4717270000000000^ALISON-MAYNE/B^0000000000000000000000000000000?")
+
+      assert_equal "ALISON-MAYNE/B", attributes[:name]
+    end
+
+    it "should parse track data with underscore in the name" do
+      attributes = @parser.parse("%B4717270000000000^ALISON_MAYNE/B^0000000000000000000000000000000?")
+
+      assert_equal "ALISON_MAYNE/B", attributes[:name]
+    end
+
+    it "should parse track data with ampersands in the name" do
+      attributes = @parser.parse("%B4717270000000000^ALISON&MAYNE/B^0000000000000000000000000000000?")
+
+      assert_equal "ALISON&MAYNE/B", attributes[:name]
+    end
+
+    it "should parse track data with exclamation mark in the name" do
+      attributes = @parser.parse("%B4717270000000000^ALISON!MAYNE/B^0000000000000000000000000000000?")
+
+      assert_equal "ALISON!MAYNE/B", attributes[:name]
+    end
+
+    it "should parse track data with at sign in the name" do
+      attributes = @parser.parse("%B4717270000000000^ALISON@MAYNE/B^0000000000000000000000000000000?")
+
+      assert_equal "ALISON@MAYNE/B", attributes[:name]
+    end
+
+    it "should parse track data with pound sign in the name" do
+      attributes = @parser.parse("%B4717270000000000^ALISON#{}MAYNE/B^0000000000000000000000000000000?")
+
+      assert_equal "ALISON#{}MAYNE/B", attributes[:name]
+    end
+
+    it "should parse track data with dollar sign in the name" do
+      attributes = @parser.parse("%B4717270000000000^ALISON$MAYNE/B^0000000000000000000000000000000?")
+
+      assert_equal "ALISON$MAYNE/B", attributes[:name]
+    end
+
+    it "should parse track data with percent in the name" do
+      attributes = @parser.parse("%B4717270000000000^ALISON%MAYNE/B^0000000000000000000000000000000?")
+
+      assert_equal "ALISON%MAYNE/B", attributes[:name]
+    end
+
+    it "should parse track data with star in the name" do
+      attributes = @parser.parse("%B4717270000000000^ALISON*MAYNE/B^0000000000000000000000000000000?")
+
+      assert_equal "ALISON*MAYNE/B", attributes[:name]
+    end
+
+    it "should parse track data with tilda in the name" do
+      attributes = @parser.parse("%B4717270000000000^ALISON~MAYNE/B^0000000000000000000000000000000?")
+
+      assert_equal "ALISON~MAYNE/B", attributes[:name]
+    end
+
+    it "should parse track data with comma in the name" do
+      attributes = @parser.parse("%B4717270000000000^ALISON,MAYNE/B^0000000000000000000000000000000?")
+
+      assert_equal "ALISON,MAYNE/B", attributes[:name]
+    end
+
   end
 end
