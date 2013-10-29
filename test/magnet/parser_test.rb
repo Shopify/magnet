@@ -184,5 +184,10 @@ describe Magnet::Parser do
       assert_equal "ALISON,MAYNE/B", attributes[:name]
     end
 
+    it "should parse track data with 27 character names" do
+      attributes = @parser.parse("%B4717270000000000^ALISON,MAYNE/B            /^0000000000000000000000000000000?")
+
+      assert_equal "ALISON,MAYNE/B            /", attributes[:name]
+    end
   end
 end
