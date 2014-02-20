@@ -1,7 +1,7 @@
 module Magnet
   class Parser
     TRACKS = {
-      1 => /\A%(?<format>[A-Z])(?<pan>[0-9 ]{1,19})\^(?<name>[^^]*)\^(?<expiration>\d{4}|\^)(?<service_code>\d{3}|\^)(?<discretionary_data>[^\?]*)\?\Z/,
+      1 => /\A%(?<format>[A-Z])(?<pan>[0-9 ]{1,19})\^(?<name>[^^]*)\^\s?(?<expiration>\d{4}|\^)(?<service_code>\d{3}|\^)(?<discretionary_data>[^\?]*)\?\Z/,
       2 => /\A;(?<format>[A-Z])(?<pan>[0-9 ]{1,19})=(?<expiration>\d{4}|=)(?<service_code>\d{3}|=)(?<discretionary_data>[^\?]*)\?\Z/
     }.freeze
 
