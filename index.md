@@ -28,19 +28,18 @@ Or install it yourself as:
 
 ## Usage
 
-```ruby
-require "magnet"
+	ruby
+	require "magnet"
 
-card = Magnet::Card.parse("%B5452300551227189^HOGAN/PAUL      ^08043210000000725000000?")
-card.expiration_month # => 04
-card.expiration_year # => 08
-card.format # => :bank
-card.first_name # => "PAUL"
-card.last_name # => "HOGAN"
-card.number # => 5452300551227189
-card.no_service_restrictions? # => true
-card.process_by_issuer? # => true
-```
+	card = Magnet::Card.parse("%B5452300551227189^HOGAN/PAUL      ^08043210000000725000000?")
+	card.expiration_month # => 04
+	card.expiration_year # => 08
+	card.format # => :bank
+	card.first_name # => "PAUL"
+	card.last_name # => "HOGAN"
+	card.number # => 5452300551227189
+	card.no_service_restrictions? # => true
+	card.process_by_issuer? # => true
 
 ## Contributing
 
