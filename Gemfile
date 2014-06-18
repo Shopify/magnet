@@ -1,11 +1,5 @@
 source "https://rubygems.org"
 
-gemspec
-
-platform :ruby_19 do
-  gem "debugger"
-end
-
-platform :ruby_20 do
-  gem "byebug"
-end
+gem 'github-pages'
+gem 'compass', '0.12.5'
+gem 'jekyll-sitemap'
