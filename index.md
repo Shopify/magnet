@@ -46,4 +46,4 @@ Fork, branch & pull request.
 
 ## License
 
-Copyright (c) 2011 Shopify | Released under the [MIT-LICENSE](http://opensource.org/licenses/MIT)
+Copyright (c) 2013 Shopify. Released under the [MIT-LICENSE](http://opensource.org/licenses/MIT).
