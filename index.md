@@ -4,13 +4,7 @@ layout: index
 
 [![Build Status](https://secure.travis-ci.org/samuelkadolph/magnet.png?branch=master)](http://travis-ci.org/samuelkadolph/magnet)
 
-# magnet
-
-magnet is a library for decoding the track data on magnetic stripe cards.
-
-## Description
-
-magnet lets you parse track data from magnetic stripe cards. Currently supports tracks 1 & 2 from bank cards.
+magnet is a library for decoding the track data on magnetic stripe cards. magnet lets you parse track data from magnetic stripe cards. Currently supports tracks 1 & 2 from bank cards.
 
 ## Installation
 
@@ -49,3 +43,7 @@ Fork, branch & pull request.
 
 * [Track format of magnetic stripe cards](http://www.gae.ucm.es/~padilla/extrawork/tracks.html)
 * [ISO 7813](http://en.wikipedia.org/wiki/ISO/IEC_7813)
+
+## License
+
+Unless otherwise noted, all code is released under the [MIT-LICENSE](http://opensource.org/licenses/MIT).
