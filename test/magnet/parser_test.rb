@@ -6,33 +6,6 @@ describe Magnet::Parser do
       @parser = Magnet::Parser.new(1)
     end
 
-    it "should parse track 2 data sample #1" do
-      attributes = @parser.parse(";4716916000001234=1809901123?")
-
-      assert_equal "4716916000001234", attributes[:pan]
-      assert_equal "1809", attributes[:expiration]
-      assert_equal "901", attributes[:service_code]
-      assert_equal "123", attributes[:discretionary_data]
-    end
-
-    it "should parse track 2 data sample #2" do
-      attributes = @parser.parse(";5301250070000191=08051010912345678901?")
-
-      assert_equal "5301250070000191", attributes[:pan]
-      assert_equal "0805", attributes[:expiration]
-      assert_equal "101", attributes[:service_code]
-      assert_equal "0912345678901", attributes[:discretionary_data]
-    end
-
-    it "should parse track 2 data sample #3" do
-      attributes = @parser.parse(";3540599999991047=080501234567?")
-
-      assert_equal "3540599999991047", attributes[:pan]
-      assert_equal "0805", attributes[:expiration]
-      assert_equal "012", attributes[:service_code]
-      assert_equal "34567", attributes[:discretionary_data]
-    end
-
     it "should parse sample #1" do
       attributes = @parser.parse("%B6011898748579348^DOE/ JOHN              ^37829821000123456789?")
 
@@ -220,6 +193,38 @@ describe Magnet::Parser do
     it "should parse track data with space after the second carrot" do
       attributes = @parser.parse("%B4717270000000000^ALISON MAYNE/B^ 0000000?")
       assert_equal "ALISON MAYNE/B", attributes[:name]
+    end
+  end
+
+  describe "Track 2" do
+    before do
+      @parser = Magnet::Parser.new(2)
+    end
+      it "should parse track 2 data sample #1" do
+      attributes = @parser.parse(";4716916000001234=1809901123?")
+
+      assert_equal "4716916000001234", attributes[:pan]
+      assert_equal "1809", attributes[:expiration]
+      assert_equal "901", attributes[:service_code]
+      assert_equal "123", attributes[:discretionary_data]
+    end
+
+    it "should parse track 2 data sample #2" do
+      attributes = @parser.parse(";5301250070000191=08051010912345678901?")
+
+      assert_equal "5301250070000191", attributes[:pan]
+      assert_equal "0805", attributes[:expiration]
+      assert_equal "101", attributes[:service_code]
+      assert_equal "0912345678901", attributes[:discretionary_data]
+    end
+
+    it "should parse track 2 data sample #3" do
+      attributes = @parser.parse(";3540599999991047=080501234567?")
+
+      assert_equal "3540599999991047", attributes[:pan]
+      assert_equal "0805", attributes[:expiration]
+      assert_equal "012", attributes[:service_code]
+      assert_equal "34567", attributes[:discretionary_data]
     end
   end
 end
