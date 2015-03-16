@@ -49,7 +49,7 @@ module Magnet
         attributes = parser.parse(track_data)
         position1, position2, position3 = (attributes[:service_code] || "").scan(/\d/).map(&:to_i)
         year, month = (attributes[:expiration] || "").scan(/\d\d/).map(&:to_i)
-        title, first_name, initial, last_name = parse_name(attributes[:name].rstrip)
+        title, first_name, initial, last_name = parse_name(attributes[:name].rstrip) if attributes[:name]
 
         card = new
         card.allowed_services = hash_lookup(ALLOWED_SERVICES, position3)
