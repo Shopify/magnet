@@ -226,5 +226,14 @@ describe Magnet::Parser do
       assert_equal "012", attributes[:service_code]
       assert_equal "34567", attributes[:discretionary_data]
     end
+
+    it "should ignore checksum when parsing track 2" do
+      attributes = @parser.parse(";5413330089020037=1412101050930812??")
+
+      assert_equal "5413330089020037", attributes[:pan]
+      assert_equal "1412", attributes[:expiration]
+      assert_equal "101", attributes[:service_code]
+      assert_equal "050930812", attributes[:discretionary_data]
+    end
   end
 end
