@@ -3,6 +3,7 @@ module Magnet
     TRACKS = {
       1 => /\A%(?<format>[A-Z])(?<pan>[0-9 ]{1,19})\^(?<name>[^^]*)\^\s?(?<expiration>\d{4}|\^)(?<service_code>\d{3}|\^)(?<discretionary_data>[^\?]*)\?\Z/,
       2 => /\A;(?<pan>[0-9 ]{1,19})=(?<expiration>\d{4}|=)(?<service_code>\d{3}|=)(?<discretionary_data>[^\?]*)\?.?\Z/,
+      'EMV' => /\A(?<pan>[0-9 ]{1,19})(d|D)(?<expiration>\d{4}|=)(?<service_code>\d{3}|=)(?<discretionary_data>[^\?fF]*)(f|F)?\Z/,
     }.freeze
 
     def initialize(track = :auto)
@@ -23,7 +24,7 @@ module Magnet
             attributes[:service_code] = m[:service_code] == "^" ? nil : m[:service_code]
             attributes[:discretionary_data] = m[:discretionary_data] == "" ? nil : m[:discretionary_data]
             return attributes
-          elsif track == TRACKS[2]
+          elsif track == TRACKS[2] || track == TRACKS['EMV']
             attributes[:pan] = m[:pan]
             attributes[:expiration] = m[:expiration] == "=" ? nil : m[:expiration]
             attributes[:service_code] = m[:service_code] == "=" ? nil : m[:service_code]

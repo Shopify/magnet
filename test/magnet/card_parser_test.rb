@@ -43,5 +43,24 @@ describe Magnet::Card do
       assert_nil card.technology
       assert_nil card.title
     end
+
+    it "EMV track 2 should work" do
+      track_data = "5213320039019055d2512620062930423f"
+      card = Magnet::Card.parse(track_data, @parser)
+      assert_equal "5213320039019055", card.number
+      assert_equal :no_restrictions, card.allowed_services
+      assert_equal :by_issuer, card.authorization_processing
+      assert_equal "062930423", card.discretionary_data
+      assert_equal 12, card.expiration_month
+      assert_equal 25, card.expiration_year
+      assert_equal :national, card.interchange
+      assert_equal :integrated_circuit_card, card.technology
+      assert_equal :pin_required, card.pin_requirements
+      assert_nil card.first_name
+      assert_nil card.format
+      assert_nil card.initial
+      assert_nil card.last_name
+      assert_nil card.title
+    end
   end
 end
