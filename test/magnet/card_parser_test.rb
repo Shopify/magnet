@@ -3,7 +3,7 @@ require "test_helper"
 describe Magnet::Card do
   describe "Parse" do
     before do
-      @parser = Magnet::Parser.new(:auto)
+      @parser = Magnet::Parser.new()
     end
 
     it "track 2 should work" do
@@ -23,6 +23,7 @@ describe Magnet::Card do
       assert_nil card.pin_requirements
       assert_nil card.technology
       assert_nil card.title
+      assert_equal 2, card.track_format
     end
 
     it "track 1 should work" do
@@ -42,6 +43,7 @@ describe Magnet::Card do
       assert_nil card.pin_requirements
       assert_nil card.technology
       assert_nil card.title
+      assert_equal 1, card.track_format
     end
 
     it "EMV track 2 should work" do
@@ -61,6 +63,14 @@ describe Magnet::Card do
       assert_nil card.initial
       assert_nil card.last_name
       assert_nil card.title
+      assert_equal :emv, card.track_format
+    end
+
+    it "should work without a memoized parser" do
+      track_data = "%B5452300551227189^HOGAN/PAUL      ^08043210000000725000000?"
+      card_with_parser = Magnet::Card.parse(track_data, @parser)
+      card_without_parser = Magnet::Card.parse(track_data)
+      assert_equal card_with_parser.number, card_without_parser.number
     end
   end
 end

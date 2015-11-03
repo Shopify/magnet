@@ -3,7 +3,7 @@ require "test_helper"
 describe Magnet::Parser do
   describe "Track 1" do
     before do
-      @parser = Magnet::Parser.new(1)
+      @parser = Magnet::Parser.new()
     end
 
     it "should parse sample #1" do
@@ -15,6 +15,7 @@ describe Magnet::Parser do
       assert_equal "3782", attributes[:expiration]
       assert_equal "982", attributes[:service_code]
       assert_equal "1000123456789", attributes[:discretionary_data]
+      assert_equal 1, attributes[:track_format]
     end
 
     it "should parse sample #2" do
@@ -26,6 +27,7 @@ describe Magnet::Parser do
       assert_equal nil, attributes[:expiration]
       assert_equal nil, attributes[:service_code]
       assert_equal "0000000      00998000000", attributes[:discretionary_data]
+      assert_equal 1, attributes[:track_format]
     end
 
     it "should parse sample #3" do
@@ -37,6 +39,7 @@ describe Magnet::Parser do
       assert_equal "0804", attributes[:expiration]
       assert_equal "321", attributes[:service_code]
       assert_equal "0000000725000000", attributes[:discretionary_data]
+      assert_equal 1, attributes[:track_format]
     end
 
     it "should parse without discretionary data" do
@@ -198,15 +201,17 @@ describe Magnet::Parser do
 
   describe "Track 2" do
     before do
-      @parser = Magnet::Parser.new(2)
+      @parser = Magnet::Parser.new()
     end
-      it "should parse track 2 data sample #1" do
+    
+    it "should parse track 2 data sample #1" do
       attributes = @parser.parse(";4716916000001234=1809901123?")
 
       assert_equal "4716916000001234", attributes[:pan]
       assert_equal "1809", attributes[:expiration]
       assert_equal "901", attributes[:service_code]
       assert_equal "123", attributes[:discretionary_data]
+      assert_equal 2, attributes[:track_format]
     end
 
     it "should parse track 2 data sample #2" do
@@ -216,6 +221,7 @@ describe Magnet::Parser do
       assert_equal "0805", attributes[:expiration]
       assert_equal "101", attributes[:service_code]
       assert_equal "0912345678901", attributes[:discretionary_data]
+      assert_equal 2, attributes[:track_format]
     end
 
     it "should parse track 2 data sample #3" do
@@ -225,6 +231,7 @@ describe Magnet::Parser do
       assert_equal "0805", attributes[:expiration]
       assert_equal "012", attributes[:service_code]
       assert_equal "34567", attributes[:discretionary_data]
+      assert_equal 2, attributes[:track_format]
     end
 
     it "should ignore checksum when parsing track 2" do
@@ -234,6 +241,81 @@ describe Magnet::Parser do
       assert_equal "1412", attributes[:expiration]
       assert_equal "101", attributes[:service_code]
       assert_equal "050930812", attributes[:discretionary_data]
+      assert_equal 2, attributes[:track_format]
+    end
+  end
+
+  describe "EMV" do
+    before do
+      @parser = Magnet::Parser.new()
+    end
+    
+    it "should parse track 2 data sample #1" do
+      attributes = @parser.parse("4716916000001234D18099011234")
+
+      assert_equal "4716916000001234", attributes[:pan]
+      assert_equal "1809", attributes[:expiration]
+      assert_equal "901", attributes[:service_code]
+      assert_equal "1234", attributes[:discretionary_data]
+      assert_equal :emv, attributes[:track_format]
+    end
+
+    it "should parse track 2 data sample #2" do
+      attributes = @parser.parse("5301250070000191D08051010912345678901F")
+
+      assert_equal "5301250070000191", attributes[:pan]
+      assert_equal "0805", attributes[:expiration]
+      assert_equal "101", attributes[:service_code]
+      assert_equal "0912345678901", attributes[:discretionary_data]
+      assert_equal :emv, attributes[:track_format]
+    end
+
+    it "should parse track 2 data sample #3" do
+      attributes = @parser.parse("3540599999991047D080501234567F")
+
+      assert_equal "3540599999991047", attributes[:pan]
+      assert_equal "0805", attributes[:expiration]
+      assert_equal "012", attributes[:service_code]
+      assert_equal "34567", attributes[:discretionary_data]
+      assert_equal :emv, attributes[:track_format]
+    end
+  end
+
+  describe "auto" do
+    before do
+      @parser = Magnet::Parser.new()
+    end
+
+    it "should parse track 1" do
+      attributes = @parser.parse("%B6011898748579348^DOE/ JOHN              ^37829821000123456789?")
+
+      assert_equal "B", attributes[:format]
+      assert_equal "6011898748579348", attributes[:pan]
+      assert_equal "DOE/ JOHN              ", attributes[:name]
+      assert_equal "3782", attributes[:expiration]
+      assert_equal "982", attributes[:service_code]
+      assert_equal "1000123456789", attributes[:discretionary_data]
+      assert_equal 1, attributes[:track_format]
+    end
+
+    it "should parse track 2" do
+      attributes = @parser.parse(";4716916000001234=1809901123?")
+
+      assert_equal "4716916000001234", attributes[:pan]
+      assert_equal "1809", attributes[:expiration]
+      assert_equal "901", attributes[:service_code]
+      assert_equal "123", attributes[:discretionary_data]
+      assert_equal 2, attributes[:track_format]
+    end
+
+    it "should parse emv tracks" do
+      attributes = @parser.parse("4716916000001234D18099011234")
+
+      assert_equal "4716916000001234", attributes[:pan]
+      assert_equal "1809", attributes[:expiration]
+      assert_equal "901", attributes[:service_code]
+      assert_equal "1234", attributes[:discretionary_data]
+      assert_equal :emv, attributes[:track_format]
     end
   end
 end
