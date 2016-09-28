@@ -289,6 +289,16 @@ describe Magnet::Parser do
       assert_equal "34567", attributes[:discretionary_data]
       assert_equal :emv, attributes[:track_format]
     end
+
+    it "should parse emv track data sample with trailing zeroes" do
+      attributes = @parser.parse("B3540599999991047D080501234567F000000000000")
+
+      assert_equal "3540599999991047", attributes[:pan]
+      assert_equal "0805", attributes[:expiration]
+      assert_equal "012", attributes[:service_code]
+      assert_equal "34567", attributes[:discretionary_data]
+      assert_equal :emv, attributes[:track_format]
+    end
   end
 
   describe "auto" do
