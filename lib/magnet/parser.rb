@@ -3,7 +3,7 @@ module Magnet
     TRACKS = {
       1 => /\A%(?<format>[A-Z])(?<pan>[0-9 ]{1,19})\^(?<name>[^^]*)\^\s?(?<expiration>\d{4}|\^)(?<service_code>\d{3}|\^)(?<discretionary_data>[^\?]*)\?\Z/,
       2 => /\A;(?<pan>[0-9 ]{1,19})=(?<expiration>\d{4}|=)(?<service_code>\d{3}|=)(?<discretionary_data>[^\?]*)\?.?\Z/,
-      :emv => /\A(?<pan>[0-9 ]{1,19})(d|D)(?<expiration>\d{4}|=)(?<service_code>\d{3}|=)(?<discretionary_data>[^\?fF]*)(f|F)?\Z/,
+      :emv => /\AB?(?<pan>[0-9 ]{1,19})(d|D)(?<expiration>\d{4}|(d|D))(?<service_code>\d{3}|(d|D))(?<discretionary_data>[^\?fF]*)(f|F)?0?.*\Z/,
     }.freeze
 
     def parse(track_data)
