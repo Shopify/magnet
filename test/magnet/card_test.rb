@@ -26,6 +26,7 @@ describe Magnet::Card do
       assert_equal nil, card.pin_requirements
       assert_equal nil, card.technology
       assert_equal nil, card.title
+      assert_equal "321", card.service_code
     end
 
     it "should parse an initial" do
