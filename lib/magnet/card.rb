@@ -42,7 +42,7 @@ module Magnet
       6 => :integrated_circuit_card
     }.freeze
 
-    attr_accessor :allowed_services, :authorization_processing, :discretionary_data, :expiration_year, :expiration_month, :first_name, :format, :initial, :interchange, :last_name, :number, :pin_requirements, :technology, :title, :track_format
+    attr_accessor :allowed_services, :authorization_processing, :discretionary_data, :expiration_year, :expiration_month, :first_name, :format, :initial, :interchange, :last_name, :number, :pin_requirements, :technology, :title, :track_format, :service_code
 
     class << self
       def parse(track_data, parser = Parser.new())
@@ -67,6 +67,7 @@ module Magnet
         card.technology = hash_lookup(TECHNOLOGY, position1)
         card.title = title
         card.track_format = attributes[:track_format]
+        card.service_code = attributes[:service_code]
         card
       end
 
