@@ -18,6 +18,18 @@ describe Magnet::Parser do
       assert_equal 1, attributes[:track_format]
     end
 
+    it "should ignore checksum when parsing track 1" do
+      attributes = @parser.parse("%B6011898748579348^DOE/ JOHN              ^37829821000123456789??")
+
+      assert_equal "B", attributes[:format]
+      assert_equal "6011898748579348", attributes[:pan]
+      assert_equal "DOE/ JOHN              ", attributes[:name]
+      assert_equal "3782", attributes[:expiration]
+      assert_equal "982", attributes[:service_code]
+      assert_equal "1000123456789", attributes[:discretionary_data]
+      assert_equal 1, attributes[:track_format]
+    end
+
     it "should parse sample #2" do
       attributes = @parser.parse("%B6011785948493759^DOE/JOHN L                ^^^0000000      00998000000?")
 
